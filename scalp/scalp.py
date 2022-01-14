@@ -35,7 +35,7 @@ from __future__ import with_statement
 import time, base64
 import os,sys,random
 
-import regex as re
+import re
 
 try:
     from lxml import etree
@@ -54,7 +54,7 @@ __release__     = __application__ + '/' + __version__
 __author__      = "Romain Gaucher"
 __credits__      = ["Romain Gaucher", "Don C. Weber", "nanopony"]
 
-PHPIDC_DEFAULT_XML_URL = "http://dev.itratos.de/projects/php-ids/repository/raw/trunk/lib/IDS/default_filter.xml" # they have expired https cert atm :c
+PHPIDC_DEFAULT_XML_URL = "https://raw.githubusercontent.com/PHPIDS/PHPIDS/master/lib/IDS/default_filter.xml" # they have expired https cert atm :c
 
 names = {
     'xss'  : 'Cross-Site Scripting',
@@ -477,7 +477,6 @@ def generate_xml_file(flag, access, filters, odir):
     except IOError:
         print("Cannot open the file:", fname)
     return
-    return
 
 def generate_html_file(flag, access, filters, odir):
     curtime = time.strftime("%a-%d-%b-%Y", time.localtime())
@@ -494,7 +493,7 @@ def generate_html_file(flag, access, filters, odir):
             if len(flag[attack_type].values()) < 1:
                 continue
             out.write("  <h2>%s (%s)</h2>\n" % (attack_type, name))
-            impacts = flag[attack_type].keys()
+            impacts = list(flag[attack_type].keys())
             impacts.sort(reverse=True)
             # order by impact
             for i in impacts:
